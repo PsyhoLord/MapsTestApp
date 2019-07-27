@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>3ed3a4a6-8bec-4d17-90fd-bd989b334a13</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>MapsTestApp</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)App.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AppStart.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Constants.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\AddressDbModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\AddressModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\MapsResponseModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\DbService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\IDbService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\ILocationService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\IRequestService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\LocationService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\RequestService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\AddressViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\BaseViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\MainActivityViewModel.cs" />
+  </ItemGroup>
+</Project>

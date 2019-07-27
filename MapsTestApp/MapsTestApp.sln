@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29123.88
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapsTestApp.Droid", "MapsTestApp.Droid\MapsTestApp.Droid.csproj", "{9D454A83-9C57-43D8-B5A8-E880C444E83F}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "MapsTestApp", "MapsTestApp\MapsTestApp.shproj", "{3ED3A4A6-8BEC-4D17-90FD-BD989B334A13}"
+EndProject
+Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		MapsTestApp\MapsTestApp.projitems*{3ed3a4a6-8bec-4d17-90fd-bd989b334a13}*SharedItemsImports = 13
+		MapsTestApp\MapsTestApp.projitems*{9d454a83-9c57-43d8-b5a8-e880c444e83f}*SharedItemsImports = 4
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9D454A83-9C57-43D8-B5A8-E880C444E83F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9D454A83-9C57-43D8-B5A8-E880C444E83F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9D454A83-9C57-43D8-B5A8-E880C444E83F}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{9D454A83-9C57-43D8-B5A8-E880C444E83F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9D454A83-9C57-43D8-B5A8-E880C444E83F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9D454A83-9C57-43D8-B5A8-E880C444E83F}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FA7DB3AD-938F-46AF-B20E-5D6AC7A981AD}
+	EndGlobalSection
+EndGlobal

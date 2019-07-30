@@ -5,13 +5,7 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
-    <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/toolbarColor"
-            local:titleTextColor="@color/fontColor"
-            local:popupTheme="@style/AppTheme.PopupOverlay" />
+  <include layout="@layout/toolbar_actionbar"/>
 
     <LinearLayout android:layout_width="match_parent"
                   android:layout_height="match_parent"
@@ -21,7 +15,7 @@
                       android:layout_height="wrap_content"
                       android:orientation="vertical">
             <Button
-              android:id="@+id/AddButton"
+					android:id="@+id/AddButton"
                     android:layout_width="120dp"
                     android:layout_height="40dp"
                     android:textColor="@color/fontColor"
@@ -29,7 +23,6 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
-                    local:MvxBind="Click AddAddressCommand"
                     android:text="Add Address"/>
         </LinearLayout>
 
@@ -65,22 +58,21 @@
                                 android:layout_height="match_parent">
 
                             <MvxRecyclerView
-                                    android:id="@+id/messages_recycler_view"
+                                    android:id="@+id/address_recycler_view"
                                     android:scrollbars="vertical"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
-                                    local:MvxItemTemplate="@layout/cell_address"
-                                    local:MvxBind="ItemsSource FavoritesList;Visibility Visibility(IsFavoritesPresent)" />
+                                    local:MvxItemTemplate="@layout/cell_address" />
 
                             <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="10dp"
+                                    android:id="@+id/no_content_view"
                                     android:textSize="@dimen/font_default_size"
                                     android:layout_marginLeft="20dp"
                                     android:layout_marginRight="20dp"
-                                    android:text="No favorite addresses selected"
-                                    local:MvxBind="Visibility InvertedVisibility(IsFavoritesPresent)"/>
+                                    android:text="No favorite addresses selected"/>
                         </FrameLayout>
                     </LinearLayout>
 

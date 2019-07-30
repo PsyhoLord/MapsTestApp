@@ -35,11 +35,11 @@ namespace MapsTestApp.Services
 
 
             if (!string.IsNullOrEmpty(response))
-                    {
-                        var jsonSettings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
-                        var responseModel = JsonConvert.DeserializeObject<MapsResponseModel>(response, jsonSettings);
-                        return responseModel;
-                    }
+            {
+                var jsonSettings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
+                var responseModel = JsonConvert.DeserializeObject<MapsResponseModel>(response, jsonSettings);
+                return responseModel;
+            }
 
             return null;
         }

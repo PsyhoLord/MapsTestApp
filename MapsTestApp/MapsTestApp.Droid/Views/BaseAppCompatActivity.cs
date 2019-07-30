@@ -10,6 +10,8 @@ namespace MapsTestApp.Driod.Views
     public abstract class BaseAppCompatActivity<TViewModel> : MvxAppCompatActivity<TViewModel>
         where TViewModel : class, IMvxViewModel
     {
+        private bool _navigationControlsEnabled = true;
+
         public new TViewModel ViewModel
         {
             get => base.ViewModel;
@@ -17,6 +19,11 @@ namespace MapsTestApp.Driod.Views
         }
 
         public Toolbar Toolbar { get; set; }
+
+        protected void SetPageAsRoot()
+        {
+            _navigationControlsEnabled = false;
+        }
 
         protected override void OnCreate(Bundle bundle)
         {
@@ -28,8 +35,8 @@ namespace MapsTestApp.Driod.Views
             Toolbar.SetTitleTextColor(ContextCompat.GetColor(this, Resource.Color.white));
 
             SetSupportActionBar(Toolbar);
-            SupportActionBar.SetDisplayHomeAsUpEnabled(true);
-            SupportActionBar.SetHomeButtonEnabled(true);
+            SupportActionBar.SetDisplayHomeAsUpEnabled(_navigationControlsEnabled);
+            SupportActionBar.SetHomeButtonEnabled(_navigationControlsEnabled);
         }
 
         protected abstract int LayoutResource { get; }

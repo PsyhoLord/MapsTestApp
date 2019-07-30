@@ -12,7 +12,6 @@ namespace MapsTestApp.ViewModels
         private readonly IMvxNavigationService _navigationService;
         private readonly ILocationService _locationService;
         private MvxObservableCollection<AddressModel> _addressList;
-        public IMvxCommand<AddressModel> AddressSelectedCommand { get; set; }
         private string _searchText;
 
         public AddressViewModel(IMvxNavigationService navigationService, ILocationService locationService)
@@ -22,6 +21,8 @@ namespace MapsTestApp.ViewModels
 
             AddressSelectedCommand = new MvxAsyncCommand<AddressModel>(AddressSelected);
         }
+
+        public IMvxCommand<AddressModel> AddressSelectedCommand { get; }
 
         private async Task AddressSelected(AddressModel address)
         {
@@ -40,7 +41,7 @@ namespace MapsTestApp.ViewModels
             get => _searchText;
             set
             {
-                SetProperty(ref _searchText, value);
+                if (SetProperty(ref _searchText, value))
                 SearchLocation();
             }
         }

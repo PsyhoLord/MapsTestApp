@@ -18,8 +18,7 @@ namespace MapsTestApp.Models
 
         public override bool Equals(object obj)
         {
-            var rhs = obj as AddressModel;
-            if (rhs == null)
+            if (!(obj is AddressModel rhs))
                 return false;
             return rhs.Caption == Caption;
         }

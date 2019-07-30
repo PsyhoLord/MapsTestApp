@@ -1,35 +1,52 @@
-﻿using System;
-using Android;
+﻿using Android;
 using Android.App;
 using Android.Gms.Maps;
 using Android.Gms.Maps.Model;
 using Android.OS;
 using Android.Support.V4.App;
+using Android.Support.V7.Widget;
 using Android.Widget;
+using MapsTestApp.Driod.Views.RecycleView;
 using MapsTestApp.ViewModels;
-using MvvmCross.Droid.Support.V7.AppCompat;
-using Toolbar = Android.Support.V7.Widget.Toolbar;
+using MvvmCross.Binding.BindingContext;
+using MvvmCross.Droid.Support.V7.RecyclerView;
+using MvvmCross.Platforms.Android.Binding.BindingContext;
+using MvvmCross.Platforms.Android.Presenters.Attributes;
+using MvvmCross.Plugin.Visibility;
 
 namespace MapsTestApp.Driod.Views
 {
+    [MvxActivityPresentation]
     [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = true)]
-    public class MainActivity : MvxAppCompatActivity<MainActivityViewModel>, IOnMapReadyCallback
+    public class MainActivity : BaseAppCompatActivity<MainActivityViewModel>, IOnMapReadyCallback
     {
         private MapFragment _mapFragment;
-        private MainActivityViewModel _activityViewModel;
         private GoogleMap _googleMap;
+
+        protected override int LayoutResource => Resource.Layout.MainActivity;
+
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
+            SetPageAsRoot();
             base.OnCreate(savedInstanceState);
-            Xamarin.Essentials.Platform.Init(this, savedInstanceState);
-            SetContentView(Resource.Layout.activity_main);
 
             var addButton = FindViewById<Button>(Resource.Id.AddButton);
-            addButton.Click += OnAddButtonClicked;
+            var recyclerView = FindViewById<MvxRecyclerView>(Resource.Id.address_recycler_view);
+            var noContentView = FindViewById<AppCompatTextView>(Resource.Id.no_content_view);
 
-            var toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
-            SetSupportActionBar(toolbar);
+            var set = this.CreateBindingSet<MainActivity, MainActivityViewModel>();
+            set.Bind(addButton).To(vm => vm.AddAddressCommand);
+
+            var adapter = new AddressAdapter((IMvxAndroidBindingContext)this.BindingContext);
+            recyclerView.Adapter = adapter;
+
+            set.Bind(adapter).For(x => x.ItemsSource).To(x => x.FavoritesList);
+            set.Bind(recyclerView).For(v => v.Visibility).To(vm => vm.IsFavoritesPresent).WithConversion<MvxVisibilityValueConverter>();
+            set.Bind(noContentView).For(v => v.Visibility).To(vm => vm.IsFavoritesPresent).WithConversion<MvxInvertedVisibilityValueConverter>();
+            //set.Bind(recyclerView).For(v => v.ItemClick).To(vm => vm.AddressSelectedCommand);
+
+            set.Apply();
 
             var tabHost = FindViewById<TabHost>(Resource.Id.tabhost);
             tabHost.Setup();
@@ -49,20 +66,18 @@ namespace MapsTestApp.Driod.Views
             _mapFragment = (MapFragment)FragmentManager.FindFragmentById(Resource.Id.map);
             _mapFragment.GetMapAsync(this);
 
-            _activityViewModel = BindingContext.DataContext as MainActivityViewModel;
-            _activityViewModel.RefreshMapMarkers += RefreshMap;
+            ViewModel.RefreshMapMarkers += RefreshMap;
 
-            var thisActivity = this as Activity;
-            ActivityCompat.RequestPermissions(thisActivity, new string[] {
-                Manifest.Permission.AccessFineLocation }, 1);
-            ActivityCompat.RequestPermissions(thisActivity,
-                new string[] { Manifest.Permission.AccessFineLocation },
-                1);
+            RequestPermissions();
         }
 
-        private void OnAddButtonClicked(object sender, EventArgs e)
+        private void RequestPermissions()
         {
-            _activityViewModel.AddAddressCommand?.Execute();
+            ActivityCompat.RequestPermissions(this,
+                new[] { Manifest.Permission.AccessFineLocation }, 1);
+
+            ActivityCompat.RequestPermissions(this,
+                new[] { Manifest.Permission.WriteExternalStorage }, 1);
         }
 
         private void RefreshMap()
@@ -90,13 +105,13 @@ namespace MapsTestApp.Driod.Views
         protected override void OnResume()
         {
             base.OnResume();
-            _activityViewModel?.RefreshFavorites();
+            ViewModel?.RefreshFavorites();
         }
 
         protected override void OnDestroy()
         {
             base.OnDestroy();
-            _activityViewModel.RefreshMapMarkers -= RefreshMap;
+            ViewModel.RefreshMapMarkers -= RefreshMap;
         }
 
         public void OnMapReady(GoogleMap googleMap)

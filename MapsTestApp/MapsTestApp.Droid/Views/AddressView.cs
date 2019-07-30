@@ -4,7 +4,7 @@ using MapsTestApp.ViewModels;
 
 namespace MapsTestApp.Driod.Views
 {
-    [Activity(Label = "Address", Theme = "@style/AppTheme")]
+    [Activity(Label = "Address", Theme = "@style/AppTheme.NoActionBar")]
     public class AddressView : BaseAppCompatActivity<AddressViewModel>
     {
         protected override int LayoutResource => Resource.Layout.AddressView;
@@ -13,8 +13,6 @@ namespace MapsTestApp.Driod.Views
         {
             base.OnCreate(bundle);
             Title = "Address";
-
-            //view.FindViewById<MvxRecyclerView>(Resource.Id.messages_recycler_view);
         }
     }
 }

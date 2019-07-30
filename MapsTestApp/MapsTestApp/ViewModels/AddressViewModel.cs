@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using MapsTestApp.Models;
 using MapsTestApp.Services;
 using MvvmCross.Commands;
@@ -13,6 +12,7 @@ namespace MapsTestApp.ViewModels
         private readonly IMvxNavigationService _navigationService;
         private readonly ILocationService _locationService;
         private MvxObservableCollection<AddressModel> _addressList;
+        public IMvxCommand<AddressModel> AddressSelectedCommand { get; set; }
         private string _searchText;
 
         public AddressViewModel(IMvxNavigationService navigationService, ILocationService locationService)
@@ -34,8 +34,6 @@ namespace MapsTestApp.ViewModels
             get => _addressList;
             set => SetProperty(ref _addressList, value);
         }
-
-        public IMvxCommand<AddressModel> AddressSelectedCommand { get; set; }
 
         public string SearchText
         {

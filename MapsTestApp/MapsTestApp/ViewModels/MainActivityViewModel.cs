@@ -22,7 +22,6 @@ namespace MapsTestApp.ViewModels
             _locationService = locationService;
 
             AddAddressCommand = new MvxAsyncCommand(AddAddress);
-
             FavoritesList = new MvxObservableCollection<AddressModel>(_locationService.GetAddressModels());
         }
 
@@ -31,7 +30,7 @@ namespace MapsTestApp.ViewModels
             await _navigationService.Navigate<AddressViewModel>();
         }
 
-        public IMvxCommand AddAddressCommand { get; set; }
+        public IMvxCommand AddAddressCommand { get; }
 
         public bool IsFavoritesPresent
         {

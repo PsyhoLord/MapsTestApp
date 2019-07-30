@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:local="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/toolbarColor"
+            local:titleTextColor="@color/fontColor"
+            local:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:orientation="vertical">
+
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:orientation="vertical">
+            <Button
+              android:id="@+id/AddButton"
+                    android:layout_width="120dp"
+                    android:layout_height="40dp"
+                    android:textColor="@color/fontColor"
+                    android:background="@color/buttonBackground"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    local:MvxBind="Click AddAddressCommand"
+                    android:text="Add Address"/>
+        </LinearLayout>
+
+        <TabHost
+                android:id="@+id/tabhost"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+            <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent">
+
+                <TabWidget
+                        android:id="@android:id/tabs"
+                        android:orientation="horizontal"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0"/>
+
+                <FrameLayout
+                        android:id="@android:id/tabcontent"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0">
+                    <LinearLayout
+                            android:id="@+id/tab1_content"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+                        <FrameLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                            <MvxRecyclerView
+                                    android:id="@+id/messages_recycler_view"
+                                    android:scrollbars="vertical"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    local:MvxItemTemplate="@layout/cell_address"
+                                    local:MvxBind="ItemsSource FavoritesList;Visibility Visibility(IsFavoritesPresent)" />
+
+                            <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="10dp"
+                                    android:textSize="@dimen/font_default_size"
+                                    android:layout_marginLeft="20dp"
+                                    android:layout_marginRight="20dp"
+                                    android:text="No favorite addresses selected"
+                                    local:MvxBind="Visibility InvertedVisibility(IsFavoritesPresent)"/>
+                        </FrameLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                            android:id="@+id/tab2_content"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+                        <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+                                  android:id="@+id/map"
+                                  android:layout_width="match_parent"
+                                  android:layout_height="match_parent"
+                                  class="com.google.android.gms.maps.MapFragment" />
+
+                    </LinearLayout>
+                </FrameLayout>
+
+            </LinearLayout>
+        </TabHost>
+    </LinearLayout>
+
+</LinearLayout>

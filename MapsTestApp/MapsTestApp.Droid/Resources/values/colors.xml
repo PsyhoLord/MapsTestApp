@@ -6,5 +6,15 @@
     <color name="toolbarColor">#3498db</color>
     <color name="fontColor">#EEE</color>
     <color name="buttonBackground">#53F</color>
-  <color name="hint_color">#999</color>
+    <color name="hint_color">#999</color>
+
+  <!-- White to Black -->
+  <color name="white">#FFFFFF</color>
+  <color name="med_white">#FBF9F8</color>
+  <color name="light_gray">#EFF2F5</color>
+  <color name="med_gray">#C7D2DC</color>
+  <color name="gray">#5C7082</color>
+  <color name="dark_gray">#FF2B343D</color>
+  <color name="black">#0D131A</color>
+  <color name="text_gray">#5A6570</color>
 </resources>

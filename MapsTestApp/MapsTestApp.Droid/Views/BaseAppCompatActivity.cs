@@ -1,4 +1,5 @@
 ﻿using Android.OS;
+using Android.Support.V4.Content;
 using Android.Support.V7.Widget;
 using Android.Views;
 using MvvmCross.Droid.Support.V7.AppCompat;
@@ -24,6 +25,7 @@ namespace MapsTestApp.Driod.Views
             Toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
 
             if (Toolbar == null) return;
+            Toolbar.SetTitleTextColor(ContextCompat.GetColor(this, Resource.Color.white));
 
             SetSupportActionBar(Toolbar);
             SupportActionBar.SetDisplayHomeAsUpEnabled(true);
@@ -43,11 +45,10 @@ namespace MapsTestApp.Driod.Views
             {
                 case global::Android.Resource.Id.Home:
                     OnBackPressed();
-                    //NavUtils.NavigateUpFromSameTask(this);
                     break;
             }
 
-            return true; //base.OnOptionsItemSelected(item);
+            return true;
         }
     }
 }

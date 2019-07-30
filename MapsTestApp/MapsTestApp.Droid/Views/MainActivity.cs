@@ -1,8 +1,10 @@
 ﻿using System;
+using Android;
 using Android.App;
 using Android.Gms.Maps;
 using Android.Gms.Maps.Model;
 using Android.OS;
+using Android.Support.V4.App;
 using Android.Widget;
 using MapsTestApp.ViewModels;
 using MvvmCross.Droid.Support.V7.AppCompat;
@@ -10,7 +12,7 @@ using Toolbar = Android.Support.V7.Widget.Toolbar;
 
 namespace MapsTestApp.Driod.Views
 {
-    [Activity(Label = "@string/app_name", Theme = "@style/AppTheme.NoActionBar", MainLauncher = true)]
+    [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = true)]
     public class MainActivity : MvxAppCompatActivity<MainActivityViewModel>, IOnMapReadyCallback
     {
         private MapFragment _mapFragment;
@@ -22,6 +24,9 @@ namespace MapsTestApp.Driod.Views
             base.OnCreate(savedInstanceState);
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             SetContentView(Resource.Layout.activity_main);
+
+            var addButton = FindViewById<Button>(Resource.Id.AddButton);
+            addButton.Click += OnAddButtonClicked;
 
             var toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
             SetSupportActionBar(toolbar);
@@ -46,6 +51,18 @@ namespace MapsTestApp.Driod.Views
 
             _activityViewModel = BindingContext.DataContext as MainActivityViewModel;
             _activityViewModel.RefreshMapMarkers += RefreshMap;
+
+            var thisActivity = this as Activity;
+            ActivityCompat.RequestPermissions(thisActivity, new string[] {
+                Manifest.Permission.AccessFineLocation }, 1);
+            ActivityCompat.RequestPermissions(thisActivity,
+                new string[] { Manifest.Permission.AccessFineLocation },
+                1);
+        }
+
+        private void OnAddButtonClicked(object sender, EventArgs e)
+        {
+            _activityViewModel.AddAddressCommand?.Execute();
         }
 
         private void RefreshMap()

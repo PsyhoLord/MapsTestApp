@@ -12,6 +12,8 @@ namespace MapsTestApp.Driod.Views
     {
         private bool _navigationControlsEnabled = true;
 
+        protected abstract void ApplyBinding();
+
         public new TViewModel ViewModel
         {
             get => base.ViewModel;

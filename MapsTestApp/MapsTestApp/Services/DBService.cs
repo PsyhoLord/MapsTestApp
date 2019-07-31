@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using MapsTestApp.Models;
 using SQLite;
 
@@ -6,28 +7,28 @@ namespace MapsTestApp.Services
 {
     public class DbService : IDbService
     {
-        private readonly SQLiteConnection _db = null;
+        private readonly SQLiteAsyncConnection _db = null;
 
         public DbService()
         {
-            _db = new SQLiteConnection(Constants.DbFilePath);
-            _db.CreateTable<AddressDbModel>();
+            _db = new SQLiteAsyncConnection(Constants.DbFilePath);//Connection();
+            _db.CreateTableAsync<AddressDbModel>();
         }
 
-        public int SaveAddress(AddressDbModel address)
+        public async Task<int> SaveAddressAsync(AddressDbModel address)
         {
-            _db.Insert(address);
+            await _db.InsertOrReplaceAsync(address);
             return address.Id;
         }
 
-        public List<AddressDbModel> GetAddresses()
+        public async Task<List<AddressDbModel>> GetAddressesAsync()
         {
-            return _db.Query<AddressDbModel>("select * from Address");
+            return await _db.QueryAsync<AddressDbModel>("select * from Address");
         }
 
-        public AddressDbModel GetAddress(int id)
+        public async Task<AddressDbModel> GetAddressAsync(int id)
         {
-            return _db.Get<AddressDbModel>(p => p.Id == id);
+            return await _db.GetAsync<AddressDbModel>(p => p.Id == id);
         }
     }
 }

@@ -8,7 +8,8 @@ namespace MapsTestApp.Services
     {
         Task<MapsResponseModel> SearchForStuff(string keyword);
         List<AddressModel> GetAddressModels();
-        void AddToFavorites(AddressModel addressModel);
+        Task AddToFavoritesAsync(AddressModel addressModel);
         void RemoveFromFavorites(AddressModel addressModel);
+        Task LoadFavoritesFromDbAsync();
     }
 }

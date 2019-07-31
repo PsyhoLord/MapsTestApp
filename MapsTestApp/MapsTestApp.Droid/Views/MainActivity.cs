@@ -25,12 +25,20 @@ namespace MapsTestApp.Driod.Views
 
         protected override int LayoutResource => Resource.Layout.MainActivity;
 
-
         protected override void OnCreate(Bundle savedInstanceState)
         {
             SetPageAsRoot();
             base.OnCreate(savedInstanceState);
 
+            ApplyBinding();
+            SetupTabControl();
+            SetupMaps();
+
+            RequestPermissions();
+        }
+
+        protected override void ApplyBinding()
+        {
             var addButton = FindViewById<Button>(Resource.Id.AddButton);
             var recyclerView = FindViewById<MvxRecyclerView>(Resource.Id.address_recycler_view);
             var noContentView = FindViewById<AppCompatTextView>(Resource.Id.no_content_view);
@@ -44,10 +52,12 @@ namespace MapsTestApp.Driod.Views
             set.Bind(adapter).For(x => x.ItemsSource).To(x => x.FavoritesList);
             set.Bind(recyclerView).For(v => v.Visibility).To(vm => vm.IsFavoritesPresent).WithConversion<MvxVisibilityValueConverter>();
             set.Bind(noContentView).For(v => v.Visibility).To(vm => vm.IsFavoritesPresent).WithConversion<MvxInvertedVisibilityValueConverter>();
-            //set.Bind(recyclerView).For(v => v.ItemClick).To(vm => vm.AddressSelectedCommand);
 
             set.Apply();
+        }
 
+        private void SetupTabControl()
+        {
             var tabHost = FindViewById<TabHost>(Resource.Id.tabhost);
             tabHost.Setup();
 
@@ -62,22 +72,19 @@ namespace MapsTestApp.Driod.Views
             tabHost.AddTab(tabWork);
 
             tabHost.CurrentTab = 0;
+        }
 
+        private void SetupMaps()
+        {
             _mapFragment = (MapFragment)FragmentManager.FindFragmentById(Resource.Id.map);
             _mapFragment.GetMapAsync(this);
-
             ViewModel.RefreshMapMarkers += RefreshMap;
-
-            RequestPermissions();
         }
 
         private void RequestPermissions()
         {
             ActivityCompat.RequestPermissions(this,
-                new[] { Manifest.Permission.AccessFineLocation }, 1);
-
-            ActivityCompat.RequestPermissions(this,
-                new[] { Manifest.Permission.WriteExternalStorage }, 1);
+                new[] {Manifest.Permission.AccessFineLocation, Manifest.Permission.WriteExternalStorage}, 1);
         }
 
         private void RefreshMap()
@@ -86,19 +93,17 @@ namespace MapsTestApp.Driod.Views
 
             _googleMap.Clear();
 
-            if (!(BindingContext.DataContext is MainActivityViewModel vm)) return;
-
-            var locList = vm.FavoritesList;
+            var locList = ViewModel.FavoritesList;
 
             foreach (var addressModel in locList)
             {
-                var markerOpt1 = new MarkerOptions();
+                var markerOption = new MarkerOptions();
 
-                markerOpt1.SetPosition(new LatLng(addressModel.MapsCandidate.geometry.location.lat,
-                    addressModel.MapsCandidate.geometry.location.lng));
+                markerOption.SetPosition(new LatLng(addressModel.Latitude,
+                    addressModel.Longitude));
 
-                markerOpt1.SetTitle(addressModel.Caption);
-                _googleMap.AddMarker(markerOpt1);
+                markerOption.SetTitle(addressModel.Caption);
+                _googleMap.AddMarker(markerOption);
             }
         }
 
@@ -110,8 +115,8 @@ namespace MapsTestApp.Driod.Views
 
         protected override void OnDestroy()
         {
-            base.OnDestroy();
             ViewModel.RefreshMapMarkers -= RefreshMap;
+            base.OnDestroy();
         }
 
         public void OnMapReady(GoogleMap googleMap)

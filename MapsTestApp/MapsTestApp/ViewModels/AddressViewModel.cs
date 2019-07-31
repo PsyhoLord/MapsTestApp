@@ -26,7 +26,7 @@ namespace MapsTestApp.ViewModels
 
         private async Task AddressSelected(AddressModel address)
         {
-            _locationService.AddToFavorites(address);
+            await _locationService.AddToFavoritesAsync(address);
             await _navigationService.Close(this);
         }
 
@@ -52,7 +52,7 @@ namespace MapsTestApp.ViewModels
 
             var result = await _locationService.SearchForStuff(SearchText);
 
-            if (result != null && result.status == "OK")
+            if (result != null && result.Status == "OK")
             {
                 FillAddressList(result);
             }
@@ -62,11 +62,12 @@ namespace MapsTestApp.ViewModels
         {
             var dropDownList = new MvxObservableCollection<AddressModel>();
 
-            foreach (var candidate in result.candidates)
+            foreach (var candidate in result.Candidates)
             {
-                dropDownList.Add(new AddressModel(candidate.name)
+                dropDownList.Add(new AddressModel(candidate.Name)
                 {
-                    MapsCandidate = candidate
+                    Latitude = candidate.Geometry.Location.Latitude,
+                    Longitude = candidate.Geometry.Location.Longitude
                 });
             }
 

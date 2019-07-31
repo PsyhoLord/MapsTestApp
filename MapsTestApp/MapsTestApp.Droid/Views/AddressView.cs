@@ -17,8 +17,12 @@ namespace MapsTestApp.Driod.Views
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
-            Title = "Address";
 
+            ApplyBinding();
+        }
+
+        protected override void ApplyBinding()
+        {
             var searchEditText = FindViewById<EditText>(Resource.Id.search_edittext);
             var recyclerView = FindViewById<MvxRecyclerView>(Resource.Id.address_recycler_view);
 

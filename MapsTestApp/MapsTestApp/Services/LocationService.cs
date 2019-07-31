@@ -20,7 +20,6 @@ namespace MapsTestApp.Services
         {
             _requestService = requestService;
             _dbService = dbService;
-            LoadFavoritesFromDb();
         }
 
         public async Task<MapsResponseModel> SearchForStuff(string keyword)
@@ -33,15 +32,10 @@ namespace MapsTestApp.Services
                 {"key", ApiKey},
             }, HttpMethod.Get);
 
+            if (string.IsNullOrEmpty(response)) return null;
 
-            if (!string.IsNullOrEmpty(response))
-            {
-                var jsonSettings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
-                var responseModel = JsonConvert.DeserializeObject<MapsResponseModel>(response, jsonSettings);
-                return responseModel;
-            }
-
-            return null;
+            var responseModel = JsonConvert.DeserializeObject<MapsResponseModel>(response);
+            return responseModel;
         }
 
         public List<AddressModel> GetAddressModels()
@@ -49,9 +43,9 @@ namespace MapsTestApp.Services
             return _favoriteList;
         }
 
-        public void LoadFavoritesFromDb()
+        public async Task LoadFavoritesFromDbAsync()
         {
-            var records = _dbService.GetAddresses();
+            var records = await _dbService.GetAddressesAsync();
 
             _favoriteList = new List<AddressModel>();
 
@@ -59,39 +53,29 @@ namespace MapsTestApp.Services
             {
                 _favoriteList.Add(new AddressModel(addressDbModel.Name)
                 {
-                    MapsCandidate = new Candidate
-                    {
-                        name = addressDbModel.Name,
-                        geometry = new Geometry
-                        {
-                            location = new Location
-                            {
-                                lat = addressDbModel.lat,
-                                lng = addressDbModel.lng
-                            }
-                        }
-                    }
+                    Latitude = addressDbModel.lat,
+                    Longitude = addressDbModel.lng
                 });
             }
         }
 
-        public void SaveFavoritesToDb(AddressModel model)
+        public async Task SaveFavoritesToDbAsync(AddressModel model)
         {
-            _dbService.SaveAddress(new AddressDbModel
+            await _dbService.SaveAddressAsync(new AddressDbModel
             {
                 Name = model.Caption,
-                lng = model.MapsCandidate.geometry.location.lng,
-                lat = model.MapsCandidate.geometry.location.lat
+                lng = model.Longitude,
+                lat = model.Latitude
             });
         }
 
-        public void AddToFavorites(AddressModel addressModel)
+        public async Task AddToFavoritesAsync(AddressModel addressModel)
         {
             if (_favoriteList == null)
                 _favoriteList = new List<AddressModel>();
 
             _favoriteList.Add(addressModel);
-            SaveFavoritesToDb(addressModel);
+            await SaveFavoritesToDbAsync(addressModel);
         }
 
         public void RemoveFromFavorites(AddressModel addressModel)

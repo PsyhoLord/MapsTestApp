@@ -9,12 +9,9 @@ namespace MapsTestApp.Models
             Caption = caption;
         }
 
-        public string Caption { get; private set; }
+        public string Caption { get; }
 
-        public override string ToString()
-        {
-            return Caption;
-        }
+        public override string ToString() => Caption;
 
         public override bool Equals(object obj)
         {
@@ -23,13 +20,9 @@ namespace MapsTestApp.Models
             return rhs.Caption == Caption;
         }
 
-        public override int GetHashCode()
-        {
-            if (Caption == null)
-                return 0;
-            return Caption.GetHashCode();
-        }
+        public override int GetHashCode() => Caption == null ? 0 : Caption.GetHashCode();
 
-        public Candidate MapsCandidate { get; set; }
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
     }
 }

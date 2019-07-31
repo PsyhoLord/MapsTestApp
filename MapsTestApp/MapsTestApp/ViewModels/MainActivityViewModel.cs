@@ -22,6 +22,13 @@ namespace MapsTestApp.ViewModels
             _locationService = locationService;
 
             AddAddressCommand = new MvxAsyncCommand(AddAddress);
+
+            GetFavoritesList();
+        }
+
+        private async void GetFavoritesList()
+        {
+            await _locationService.LoadFavoritesFromDbAsync();
             FavoritesList = new MvxObservableCollection<AddressModel>(_locationService.GetAddressModels());
         }
 
@@ -51,7 +58,10 @@ namespace MapsTestApp.ViewModels
 
         public void RefreshFavorites()
         {
-            FavoritesList = new MvxObservableCollection<AddressModel>(_locationService.GetAddressModels());
+            var models = _locationService.GetAddressModels();
+            FavoritesList = models == null
+                ? new MvxObservableCollection<AddressModel>()
+                : new MvxObservableCollection<AddressModel>(_locationService.GetAddressModels());
         }
     }
 }

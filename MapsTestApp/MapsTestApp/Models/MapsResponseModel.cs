@@ -1,47 +1,41 @@
 ﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace MapsTestApp.Models
 {
     public class MapsResponseModel
     {
-        public List<Candidate> candidates { get; set; }
-        public string status { get; set; }
+        [JsonProperty("candidates")]
+        public List<Candidate> Candidates { get; set; }
+
+        [JsonProperty("status")]
+        public string Status { get; set; }
     }
 
     public class Location
     {
-        public double lat { get; set; }
-        public double lng { get; set; }
-    }
+        [JsonProperty("lat")]
+        public double Latitude { get; set; }
 
-    public class Northeast
-    {
-        public double lat { get; set; }
-        public double lng { get; set; }
-    }
-
-    public class Southwest
-    {
-        public double lat { get; set; }
-        public double lng { get; set; }
-    }
-
-    public class Viewport
-    {
-        public Northeast northeast { get; set; }
-        public Southwest southwest { get; set; }
+        [JsonProperty("lng")]
+        public double Longitude { get; set; }
     }
 
     public class Geometry
     {
-        public Location location { get; set; }
-        public Viewport viewport { get; set; }
+        [JsonProperty("location")]
+        public Location Location { get; set; }
     }
 
     public class Candidate
     {
-        public string formatted_address { get; set; }
-        public Geometry geometry { get; set; }
-        public string name { get; set; }
+        [JsonProperty("formatted_address")]
+        public string FormattedAddress { get; set; }
+
+        [JsonProperty("geometry")]
+        public Geometry Geometry { get; set; }
+
+        [JsonProperty("name")]
+        public string Name { get; set; }
     }
 }
